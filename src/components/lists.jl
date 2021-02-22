@@ -53,7 +53,7 @@ Having hit '[' return either:
 + A comprehension
 + An array (vcat of hcats)
 """
-function parse_array(ps::ParseState, isref = false)
+function parse_array(ps::ParseState, isref=false)
     args = EXPR[]
     trivia = EXPR[EXPR(ps)]
     if kindof(ps.nt) === Tokens.RSQUARE
@@ -85,7 +85,7 @@ function parse_array(ps::ParseState, isref = false)
         elseif iscomma(ps.nt)
             push!(args, first_arg)
             push!(trivia, accept_comma(ps))
-            @closesquare ps parse_comma_sep(ps, args, trivia, isref, insert_params_at = 1)
+            @closesquare ps parse_comma_sep(ps, args, trivia, isref, insert_params_at=1)
             push!(trivia, accept_rsquare(ps))
             return EXPR(:vect, args, trivia)
         elseif kindof(ps.ws) == WS || kindof(ps.ws) == SemiColonWS || kindof(ps.ws) == NewLineWS
@@ -225,7 +225,7 @@ function parse_barray(ps::ParseState)
         elseif iscomma(ps.nt)
             push!(args, first_arg)
             accept_comma(ps, trivia)
-            @closebrace ps parse_comma_sep(ps, args, trivia, true, insert_params_at = 1)
+            @closebrace ps parse_comma_sep(ps, args, trivia, true, insert_params_at=1)
             accept_rbrace(ps, trivia)
             return EXPR(:braces, args, trivia)
         elseif kindof(ps.ws) == NewLineWS

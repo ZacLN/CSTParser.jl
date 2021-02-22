@@ -112,7 +112,7 @@ end
     end
 
     @testset ":block" begin
-        @testset "begin" begin
+    @testset "begin" begin
             x = cst"""begin
                             ex1
                             ex2
@@ -123,7 +123,7 @@ end
             @test x[3] === x.args[2]
             @test x[4] === x.trivia[2]
         end
-    end
+end
     @testset ":for" begin
         x = cst"""for itr in itr
                         ex1

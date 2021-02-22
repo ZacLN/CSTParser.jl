@@ -168,7 +168,7 @@ function _getindex(x::EXPR, i)
             elseif i == length(x)
                 last(x.trivia)
             elseif isodd(i)
-                x.args[div(i+1, 2) - 1]
+                x.args[div(i + 1, 2) - 1]
             else
                 x.trivia[div(i, 2)]
             end
@@ -189,7 +189,7 @@ Base.lastindex(x::EXPR) = x.args === nothing ? 0 : length(x)
 
 function ta(x, i)
     if i == 1
-        x.trivia[1]
+    x.trivia[1]
     elseif i == 2
         x.args[1]
     end
@@ -238,11 +238,11 @@ function _const(x, i)
     if length(x.trivia) === 1
         ta(x, i)
     elseif length(x.trivia) === 2
-        #global const
+        # global const
         if i < 3
             x.trivia[i]
         elseif i == 3
-            x.args[1]
+    x.args[1]
         end
     end
 end
@@ -329,7 +329,7 @@ function _quote(x, i)
     else
         error()
     end
-end
+        end
 
 function _quotenode(x, i)
     if hastrivia(x)
@@ -485,7 +485,7 @@ function _call(x, i)
     end
 end
 
-function _kw(x, i)
+    function _kw(x, i)
     if i == 1
         x.args[1]
     elseif i == 2
@@ -601,8 +601,8 @@ end
 
 function _string(x, i)
     # TODO: this is mega slow
-    ai, ti = 1,1
-    arg = isstringliteral(x.args[1])# && sizeof(valof(x.args[1])) !== x.args[1].fullspan
+    ai, ti = 1, 1
+        arg = isstringliteral(x.args[1])# && sizeof(valof(x.args[1])) !== x.args[1].fullspan
     isinterpolant = !arg
     bracket = false
     if hastrivia(x) && (x.trivia[1].head === :STRING || x.trivia[1].head === :TRIPLESTRING) && isempty(x.trivia[1].val)
@@ -668,7 +668,7 @@ function _macrocall(x, i)
                 x.args[3]
             elseif i == length(x)
                 last(x.trivia)
-            elseif isodd(i)
+        elseif isodd(i)
                 x.trivia[div(i, 2)]
             else
                 x.args[div(i + 1, 2) + 2]
@@ -710,7 +710,7 @@ function _typed_vcat(x, i)
 
 end
 
-function _module(x, i)
+    function _module(x, i)
     if i == 1
         x.trivia[1]
     elseif i == 2
@@ -805,8 +805,8 @@ function _flatten(x, i)
     lhs = _flatten_lhs(x)
     lhs[i]
 end
-
-function _flatten_lhs(x, ret = [])
+        
+function _flatten_lhs(x, ret=[])
     if x.args[1].head === :generator || x.args[1].head === :flatten
         if headof(x) !== :flatten
             for i = 2:length(x)

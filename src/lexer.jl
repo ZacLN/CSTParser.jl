@@ -103,14 +103,14 @@ current_line(ps::ParseState) = ps.nt.startpos[1]
 Having hit an initial whitespace/comment/semicolon continues collecting similar
 `Chars` until they end. Returns a WS token with an indication of newlines/ semicolons. Indicating a semicolons takes precedence over line breaks as the former is equivalent to the former in most cases.
 """
-function read_ws_comment(l, c::Char)
+    function read_ws_comment(l, c::Char)
     newline = c == '\n'
     semicolon = c == ';'
     if c == '#'
         newline = read_comment(l)
     else
         newline, semicolon = read_ws(l, newline, semicolon)
-    end
+            end
     while iswhitespace(peekchar(l)) || peekchar(l) == '#' || peekchar(l) == ';'
         c = readchar(l)
         if c == '#'
@@ -130,7 +130,7 @@ function lex_ws_comment(l::Lexer, c::Char)
     newline, semicolon = read_ws_comment(l, c)
     return emit(l, semicolon ? SemiColonWS :
                    newline ? NewLineWS : WS)
-end
+    end
 
 
 function read_ws(l, newline, semicolon)
@@ -161,7 +161,7 @@ function read_comment(l)
             nc = readchar(l)
             if c == '#' && nc == '='
                 n_start += 1
-            elseif c == '=' && nc == '#'
+elseif c == '=' && nc == '#'
                 n_end += 1
             end
             if n_start == n_end

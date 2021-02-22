@@ -70,14 +70,14 @@ function EXPR(head::Union{Symbol,EXPR}, args::Vector{EXPR}, trivia::Union{Vector
     ex
 end
 
-function EXPR(head::Union{Symbol,EXPR}, args::Vector{EXPR}, trivia::Union{Vector{EXPR},Nothing} = EXPR[])
+function EXPR(head::Union{Symbol,EXPR}, args::Vector{EXPR}, trivia::Union{Vector{EXPR},Nothing}=EXPR[])
     ret = EXPR(head, args, trivia, 0, 0)
     update_span!(ret)
     ret
 end
 
 # These methods are for terminal/childless expressions.
-@noinline EXPR(head::Union{Symbol,EXPR}, fullspan::Int, span::Int, val = nothing) = EXPR(head, nothing, nothing, fullspan, span, val, nothing, nothing)
+@noinline EXPR(head::Union{Symbol,EXPR}, fullspan::Int, span::Int, val=nothing) = EXPR(head, nothing, nothing, fullspan, span, val, nothing, nothing)
 @noinline EXPR(head::Union{Symbol,EXPR}, ps::ParseState) = EXPR(head, ps.nt.startbyte - ps.t.startbyte, ps.t.endbyte - ps.t.startbyte + 1, val(ps.t, ps))
 @noinline EXPR(ps::ParseState) = EXPR(tokenkindtoheadmap(kindof(ps.t)), ps)
 

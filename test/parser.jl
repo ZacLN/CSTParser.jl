@@ -175,7 +175,7 @@ end
 
 
     @testset "Type Annotations" begin
-        @testset "Curly" begin
+    @testset "Curly" begin
             @test "x{T}" |> test_expr
             @test "x{T,S}" |> test_expr
             @test "a.b{T}" |> test_expr
@@ -187,14 +187,14 @@ end
             @test """x{T,
         S}""" |> test_expr
         end
-    end
+end
 
     @testset "Tuples" begin
         @static if VERSION > v"1.1-"
-            @test headof(CSTParser.parse("1,")) === :errortoken
-        else
-            @test "1," |> test_expr
-        end
+    @test headof(CSTParser.parse("1,")) === :errortoken
+else
+    @test "1," |> test_expr
+end
         @test "1,2" |> test_expr
         @test "1,2,3" |> test_expr
         @test "()" |> test_expr
@@ -403,12 +403,12 @@ end
         end
 
         @testset "hcat" begin
-            @test "[x y]" |> test_expr
-        end
+    @test "[x y]" |> test_expr
+end
 
         @testset "typed_hcat" begin
-            @test "t[x y]" |> test_expr
-        end
+    @test "t[x y]" |> test_expr
+end
 
         @testset "Comprehension" begin
             @test "[i for i = 1:10]" |> test_expr
@@ -546,9 +546,9 @@ end
         "\"\"\"\n$ws%rv = atomicrmw \$rmw \$lt* %0, \$lt %1 acq_rel\n$(ws)ret \$lt %rv\n$ws\"\"\"" |> test_expr
         ws1 = "        "
         ws2 = "    "
-        "\"\"\"\n$(ws1)a\n$(ws1)b\n$(ws2)c\n$(ws2)d\n$(ws2)\"\"\"" |> test_expr
-        "\"\"\"\n$(ws1)a\n\n$(ws1)b\n\n$(ws2)c\n\n$(ws2)d\n\n$(ws2)\"\"\"" |> test_expr
-        @test "\"\"\"\n$(ws1)α\n$(ws1)β\n$(ws2)γ\n$(ws2)δ\n$(ws2)\"\"\"" |> test_expr
+        "\"\"\"\n$(ws1)a\n$(ws1)b\n$(ws2)c\n$(ws2)d\n$(ws2)\"\"\""  |> test_expr
+        "\"\"\"\n$(ws1)a\n\n$(ws1)b\n\n$(ws2)c\n\n$(ws2)d\n\n$(ws2)\"\"\""  |> test_expr
+        @test "\"\"\"\n$(ws1)α\n$(ws1)β\n$(ws2)γ\n$(ws2)δ\n$(ws2)\"\"\""  |> test_expr
         @test "\"\"\"Float\$(bit)\"\"\"" |> test_expr
         @test headof(CSTParser.parse("\"\"\"abc\$(de)fg\"\"\"").args[3]) == :STRING
         @test headof(CSTParser.parse("\"\"\"abc(de)fg\"\"\"")) == :TRIPLESTRING
@@ -566,10 +566,10 @@ end
         @test "isa(a,a) != isa(a,a)" |> test_expr
         @test "@mac return x" |> test_expr
         @static if VERSION > v"1.1-"
-            @test headof(CSTParser.parse("a,b,").trivia[2]) === :errortoken
-        else
-            @test "a,b," |> test_expr
-        end
+    @test headof(CSTParser.parse("a,b,").trivia[2]) === :errortoken
+else
+    @test "a,b," |> test_expr
+end
         @test "m!=m" |> test_expr
         @test "+(x...)" |> test_expr
         @test "+(promote(x,y)...)" |> test_expr
@@ -715,14 +715,14 @@ end""" |> test_expr
         @test "a[: ]" |> test_expr
         @test ".~b" |> test_expr
         if VERSION > v"1.1-"
-            @test "a .~ b" |> test_expr
-        end
+    @test "a .~ b" |> test_expr
+end
         @test "1 .< 2 .< 3" |> test_expr
         @test "(;)" |> test_expr
         if VERSION > v"1.5"
-        @test "@M{a}-b" |> test_expr
-        @test "@M{a,b}-b" |> test_expr
-        end
+    @test "@M{a}-b" |> test_expr
+    @test "@M{a,b}-b" |> test_expr
+end
         @test "@M[a]-b" |> test_expr
     end
 
@@ -736,8 +736,8 @@ end""" |> test_expr
     end
 
     @testset "Broken things" begin
-        @test_broken "\$(a) * -\$(b)" |> test_expr_broken
-    end
+    @test_broken "\$(a) * -\$(b)" |> test_expr_broken
+end
 
 # test_fsig_decl(str) = (x->x.id).(CSTParser._get_fsig(CSTParser.parse(str)).defs)
 # @testset "func-sig variable declarations" begin
@@ -781,8 +781,8 @@ end""" |> test_expr
     end
 
     @testset "conversion of floats with underscore" begin
-        @test "30.424_876_125_859_513" |> test_expr
-    end
+    @test "30.424_876_125_859_513" |> test_expr
+end
 
     @testset "errors" begin
         @test headof(CSTParser.parse("1? b : c ").args[1]) === :errortoken
@@ -862,42 +862,42 @@ end""" |> test_expr
         @test x.args[1].args[1].args[1].head === :globalrefdoc
     end
     if VERSION > v"1.3.0-" 
-        @testset "issue #198" begin
-            @test test_expr(":var\"id\"")
-        end
+    @testset "issue #198" begin
+        @test test_expr(":var\"id\"")
     end
+end
     @testset "vscode issue #1632" begin
         @test test_expr("\"\$( a)\"")
         @test test_expr("\"\$(#=comment=# a)\"")
     end
     @testset "issue #210" begin
-        @test test_expr("function f(a; where = false) end")
-    end
+    @test test_expr("function f(a; where = false) end")
+end
 
     @testset "suffixed ops" begin
         @test test_expr("a +₊ b *₊ c")
         @test test_expr("a *₊ b +₊ c")
     end
     @static if VERSION > v"1.6-"
-        @testset "import .. as .. syntax" begin
+    @testset "import .. as .. syntax" begin
             @test test_expr("import a as b")
             @test test_expr("import a as b, c")
             @test CSTParser.parse("using a as b")[2].head === :errortoken
         end
-    end
+end
     @testset "exor #201" begin
-        @test test_expr(raw"$return(x)")
-    end
+    @test test_expr(raw"$return(x)")
+end
     if VERSION > v"1.3.0-" 
-        @testset "@var #236" begin
+    @testset "@var #236" begin
             s = raw"""@var" " a"""
             @test test_expr(s)
             @test CSTParser.ismacroname(CSTParser.parse(s).args[1])
         end
-    end
+end
     @testset "bad uint" begin
-        @test Expr(CSTParser.parse("0x.")) == Expr(:error)
-    end
+    @test Expr(CSTParser.parse("0x.")) == Expr(:error)
+end
 
     @testset "endswithtrivia" begin
         x = CSTParser.parse("\"some long title \$label1 \$label2\" \na")
@@ -941,15 +941,15 @@ end""" |> test_expr
     @testset "end as id juxt" begin
         @test test_expr("a[1end]")
         if VERSION >= v"1.4"
-            @test test_expr("a[2begin:1end]")
-        end
+    @test test_expr("a[2begin:1end]")
+end
     end
 
     @testset "last child is trivia for :string" begin
-        @test !CSTParser.lastchildistrivia(cst"""("a $(A) a"  )"""[2])
-    end
+    @test !CSTParser.lastchildistrivia(cst"""("a $(A) a"  )"""[2])
+end
 
     @testset "toplevel strings" begin
-        @test test_expr(""""a" in b && c""")
-    end
+    @test test_expr(""""a" in b && c""")
+end
 end

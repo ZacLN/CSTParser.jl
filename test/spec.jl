@@ -16,7 +16,7 @@ function check_parents(x::EXPR)
 end
 
 
-function test_expr(s, head, n, endswithtrivia = false)
+function test_expr(s, head, n, endswithtrivia=false)
     x = CSTParser.parse(s)
     head === nothing || @test headof(x) === head
     @test length(x) === n
@@ -25,7 +25,7 @@ function test_expr(s, head, n, endswithtrivia = false)
     @test Expr(x) == jl_parse(s)
     @test isempty(check_span(x))
     check_parents(x)
-    @test endswithtrivia ? (x.fullspan-x.span) == (last(x.trivia).fullspan - last(x.trivia).span) : (x.fullspan-x.span) == (last(x.args).fullspan - last(x.args).span)
+    @test endswithtrivia ? (x.fullspan - x.span) == (last(x.trivia).fullspan - last(x.trivia).span) : (x.fullspan - x.span) == (last(x.args).fullspan - last(x.args).span)
 end
 
 

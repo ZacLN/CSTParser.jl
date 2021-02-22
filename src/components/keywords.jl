@@ -95,7 +95,7 @@ function parse_const(ps::ParseState)
     return ret
 end
 
-function parse_local_global(ps::ParseState, islocal = true)
+function parse_local_global(ps::ParseState, islocal=true)
     kw = EXPR(ps)
     if ps.nt.kind === Tokens.CONST
         arg1 = parse_const(next(ps))
@@ -208,7 +208,7 @@ function parse_export(ps::ParseState)
         arg = parse_importexport_item(ps)
         push!(args, arg)
         prevpos = loop_check(ps, prevpos)
-    end
+end
 
     return EXPR(:export, args, trivia)
 end
@@ -279,7 +279,7 @@ function parse_blockexpr_sig(ps::ParseState, head)
     return nothing
 end
 
-function parse_do(ps::ParseState, pre::EXPR)
+    function parse_do(ps::ParseState, pre::EXPR)
     args, trivia = EXPR[pre], EXPR[EXPR(next(ps))]
     args1, trivia1 = EXPR[], EXPR[]
     @closer ps :comma @closer ps :block while !closer(ps)
@@ -329,7 +329,7 @@ function parse_blockexpr(ps::ParseState, head)
     elseif head === :struct
         EXPR(head, EXPR[EXPR(:FALSE, 0, 0), sig, EXPR(:block, blockargs, nothing)], EXPR[kw, accept_end(ps)])
     else
-        EXPR(head, EXPR[sig, EXPR(:block, blockargs, nothing)], EXPR[kw, accept_end(ps)])
+EXPR(head, EXPR[sig, EXPR(:block, blockargs, nothing)], EXPR[kw, accept_end(ps)])
     end
 end
 
@@ -339,7 +339,7 @@ end
 
 Parse an `if` block.
 """
-function parse_if(ps::ParseState, nested = false)
+function parse_if(ps::ParseState, nested=false)
     args = EXPR[]
     trivia = EXPR[EXPR(ps)]
 

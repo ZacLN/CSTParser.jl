@@ -174,7 +174,7 @@ function get_sig(x::EXPR)
         return x.args[1]
     elseif headof(x) === :struct || headof(x) === :mutable 
         return x.args[2]
-    elseif  headof(x) === :abstract || headof(x) === :primitive || headof(x) === :function || headof(x) === :macro
+    elseif headof(x) === :abstract || headof(x) === :primitive || headof(x) === :function || headof(x) === :macro
         return x.args[1]
     end
 end
@@ -229,7 +229,7 @@ function get_name(x::EXPR)
         sig = rem_invis(sig)
     end
 end
-
+    
 function get_arg_name(arg::EXPR)
     arg = rem_kw(arg)
     arg = rem_dddot(arg)

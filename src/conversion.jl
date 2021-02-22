@@ -1,4 +1,4 @@
-import Core: Expr
+import Core:Expr
 
 # Terminals
 function julia_normalization_map(c::Int32, x::Ptr{Nothing})::Int32
@@ -81,7 +81,7 @@ end
 const TYPEMAX_INT64_STR = string(typemax(Int))
 const TYPEMAX_INT128_STR = string(typemax(Int128))
 function Expr_int(x)
-    is_hex = is_oct = is_bin = false
+        is_hex = is_oct = is_bin = false
     val = replace(valof(x), "_" => "")
     if sizeof(val) > 2 && val[1] == '0'
         c = val[2]
@@ -175,13 +175,13 @@ function Expr(x::EXPR)
         Expr(:string, Expr.(x.args[2:end])...)
     elseif x.args === nothing
         Expr(Symbol(lowercase(String(x.head))))
-    elseif x.head === :errortoken
+elseif x.head === :errortoken
         Expr(:error)
     else
         Expr(Symbol(lowercase(String(x.head))), Expr.(x.args)...)
     end
 end
-
+    
 function remove_at(x)
     if isidentifier(x) && valof(x) !== nothing && first(valof(x)) == '@'
         return Symbol(valof(x)[2:end])
